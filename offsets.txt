@@ -1,0 +1,1 @@
+acc_x:6,acc_y:-20,acc_z:-40,gyro_x:-2,gyro_y:-4,gyro_z:-2,mag_x:551,mag_y:-511,mag_z:358,acc_radius:1000,mag_radius:968
