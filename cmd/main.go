@@ -36,6 +36,7 @@ func main() {
 	c := cli.Command(&uiItems)
 	for {
 		item := <-c
+		//log.Fatal("Name: ", item.Name, "Value: ", item.Value)
 		switch item.Name {
 		case "quit":
 			os.Exit(0)

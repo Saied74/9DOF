@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-const remoteAddr = "192.168.4.75"
+const remoteAddr = "192.168.1.252" //"192.168.4.75"
 
 //<++++++++++++++++++++++   Query head end   +++++++++++++++++++++++++++>
 
