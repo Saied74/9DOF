@@ -1,2 +1,4 @@
-github.com/Saied74/cli v0.0.0-20210822150834-1eae7109881a h1:+eUsAlh1vINNyXj+DeQKHhTYYNysHwzlR5JoiwCT5rE=
-github.com/Saied74/cli v0.0.0-20210822150834-1eae7109881a/go.mod h1:q+CKy+Wlij6CJFTgelSjU8RszPtOVHKpLLNtfRoCNrY=
+github.com/Saied74/cli v0.0.0-20221227043011-df84a51c699e h1:hIRSdT0TtUudhGhF3Hn4WugGDWzNOQacQxnhRxtQwTk=
+github.com/Saied74/cli v0.0.0-20221227043011-df84a51c699e/go.mod h1:q+CKy+Wlij6CJFTgelSjU8RszPtOVHKpLLNtfRoCNrY=
+github.com/Saied74/cli v0.0.0-20221227045040-40d09b8eca92 h1:VyJCzn3G3r15+9qtAW5N67njFT3NjeYY9tMwgoEbWcI=
+github.com/Saied74/cli v0.0.0-20221227045040-40d09b8eca92/go.mod h1:q+CKy+Wlij6CJFTgelSjU8RszPtOVHKpLLNtfRoCNrY=

@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-const remoteAddr = "192.168.1.252" //"192.168.4.75"
+const remoteAddr = "192.168.4.112" //"192.168.1.254" //
 
 //<++++++++++++++++++++++   Query head end   +++++++++++++++++++++++++++>
 
@@ -26,7 +26,7 @@ func (app *application) getRemote(q string) (string, error) {
 	  q = w for write offset data
 	*/
 	client := &http.Client{
-		Timeout: 100 * time.Second,
+		Timeout: 10 * time.Second,
 	}
 	// TODO: replace remote address with server name
 	//better yet, make the server name or IP address a command line flag
