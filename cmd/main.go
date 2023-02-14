@@ -19,6 +19,12 @@ type application struct {
 	magneticDecl  float64
 	fileName      string
 	file          *os.File
+	azStart       float64
+	azEnd         float64
+	azInc         float64
+	elStart       float64
+	elEnd         float64
+	elInc         float64
 	azimuth       float64
 	elevation     float64
 	errorLog      *log.Logger
@@ -40,6 +46,15 @@ func main() {
 		errorLog:     errorLog,
 		infoLog:      infoLog,
 		magneticDecl: magneticDecl,
+		fileName:     "sensordata.csv",
+		azStart:      55.0,
+		azEnd:        300.0,
+		azInc:        5.0,
+		elStart:      5.0,
+		elEnd:        90.0,
+		elInc:        5.0,
+		azimuth:      55.0,
+		elevation:    5.0,
 		//		templateCache: templateCache,
 	}
 	app.iterCount, _ = strconv.Atoi(uiItems.ItemList["iterations"].Value)
@@ -93,15 +108,30 @@ func main() {
 			}
 		case "closeFile":
 			app.file.Close()
-		case "azimuth":
+		case "az_start":
 			az, _ := strconv.ParseFloat(item.Value, 64)
+			app.azStart = az
 			app.azimuth = az
-		case "elevation":
+		case "az_end":
+			az, _ := strconv.ParseFloat(item.Value, 64)
+			app.azEnd = az
+		case "az_inc":
+			az, _ := strconv.ParseFloat(item.Value, 64)
+			app.azInc = az
+		case "el_start":
 			el, _ := strconv.ParseFloat(item.Value, 64)
+			app.elStart = el
 			app.elevation = el
+		case "el_end":
+			el, _ := strconv.ParseFloat(item.Value, 64)
+			app.elEnd = el
+		case "el_inc":
+			el, _ := strconv.ParseFloat(item.Value, 64)
+			app.elInc = el
 		case "record":
 			err := app.recordData()
 			if err != nil {
+				fmt.Println("record fatal error")
 				log.Fatal(err)
 			}
 		default:
@@ -183,6 +213,7 @@ func (app *application) storeOffsets() error {
 	if err != nil {
 		return err
 	}
+	fmt.Println(result)
 	result = strings.TrimLeft(result, "<!DOCTYPE HTML><html>")
 	result = strings.TrimRight(result, "</html>\r\n")
 	err = os.WriteFile("offsets.txt", []byte(result), 0666)
@@ -206,6 +237,7 @@ func (app *application) updateOffsets() error {
 }
 
 func (app *application) recordData() error {
+	reCal := false
 	calResults, err := app.showCalResults("c")
 	if err != nil {
 		return err
@@ -217,14 +249,21 @@ func (app *application) recordData() error {
 	for _, cal := range calParts {
 		c := strings.Split(cal, ":")
 		if len(c) != 2 {
-			return fmt.Errorf("bad calibration compoinent %v", cal)
+			return fmt.Errorf("bad calibration component %v", cal)
 		}
 		calData, err := strconv.Atoi(c[1])
 		if err != nil {
 			return fmt.Errorf("calibration data did not convert to int %v", c[1])
 		}
 		if calData != 3 {
+			reCal = true
 			app.recalibrate(c[0], calData)
+		}
+	}
+	if reCal {
+		err = app.updateOffsets()
+		if err != nil {
+			return err
 		}
 	}
 	s, err := app.showSensorResults("s")
@@ -240,7 +279,10 @@ func (app *application) recordData() error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("\n0 = %0.2f\t1 = %0.2f\t2 = %0.2f\n", s[0], s[1], s[2])
+	fmt.Printf("\nAz = %0.1f\tEl =%0.1f\tX = %0.2f\tY = %0.2f\tZ = %0.2f\n",
+		app.azimuth, app.elevation, s[0], s[1], s[2])
+	app.azimuth += app.azInc
+	app.elevation += app.elInc
 	return nil
 }
 

@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-const remoteAddr = "192.168.4.112" //"192.168.1.254" //
+const remoteAddr = "169.254.125.225" //"192.168.1.254" //
 
 //<++++++++++++++++++++++   Query head end   +++++++++++++++++++++++++++>
 
@@ -25,9 +25,25 @@ func (app *application) getRemote(q string) (string, error) {
 	  q = r for get offset data
 	  q = w for write offset data
 	*/
-	client := &http.Client{
-		Timeout: 10 * time.Second,
+	var localAddr = "169.254.125.224"
+	localAddress, _ := net.ResolveTCPAddr("tcp", localAddr)
+
+	transport := &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		Dial: (&net.Dialer{
+			Timeout:   30 * time.Second,
+			KeepAlive: 30 * time.Second,
+			LocalAddr: localAddress,
+		}).Dial,
 	}
+
+	client := &http.Client{
+		Transport: transport,
+	}
+
+	// client := &http.Client{
+	// 	Timeout: 10 * time.Second,
+	// }
 	// TODO: replace remote address with server name
 	//better yet, make the server name or IP address a command line flag
 	url := fmt.Sprintf("http://%s/?q=%s:80", remoteAddr, q)
@@ -60,8 +76,8 @@ func (app *application) getRemote(q string) (string, error) {
 		return "", err
 	}
 	defer response.Body.Close()
-	buf := make([]byte, 1024)
-	buf, err = io.ReadAll(response.Body)
+	//buf := make([]byte, 1024)
+	buf, err := io.ReadAll(response.Body)
 	if err != nil {
 		return "", err
 	}

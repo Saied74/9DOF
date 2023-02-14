@@ -10,7 +10,8 @@ import (
 var uiItems = cli.Items{
 	OrderList: []string{"iterations", "calibration", "sensors",
 		"getOffsets", "updateOffsets", "fileName", "openFile",
-		"closeFile", "azimuth", "elevation", "record", "quit"},
+		"closeFile", "az_start", "az_end", "az_inc", "el_start",
+		"el_end", "el_inc", "record", "quit"},
 	ItemList: map[string]*cli.Item{
 		"iterations": &cli.Item{
 			Name:      "Iterations",
@@ -60,16 +61,40 @@ var uiItems = cli.Items{
 			Value:     "",
 			Validator: cli.ItemValidator(func(x string) bool { return true }),
 		},
-		"azimuth": &cli.Item{
-			Name:      "azimuth",
-			Prompt:    "Update Azimuth",
-			Value:     "",
+		"az_start": &cli.Item{
+			Name:      "az_start",
+			Prompt:    "Azimuth start",
+			Value:     "55.0",
 			Validator: floatValidator,
 		},
-		"elevation": &cli.Item{
-			Name:      "elevation",
-			Prompt:    "Update Elevation",
-			Value:     "",
+		"az_end": &cli.Item{
+			Name:      "az_end",
+			Prompt:    "Azimuth end",
+			Value:     "300.0",
+			Validator: floatValidator,
+		},
+		"az_inc": &cli.Item{
+			Name:      "az_inc",
+			Prompt:    "Azimuth increment",
+			Value:     "5.0",
+			Validator: floatValidator,
+		},
+		"el_start": &cli.Item{
+			Name:      "el_start",
+			Prompt:    "Elevation start",
+			Value:     "5.0",
+			Validator: floatValidator,
+		},
+		"el_end": &cli.Item{
+			Name:      "el_end",
+			Prompt:    "Elevation end",
+			Value:     "90.0",
+			Validator: floatValidator,
+		},
+		"el_inc": &cli.Item{
+			Name:      "el_inc",
+			Prompt:    "Elevation increment",
+			Value:     "5.0",
 			Validator: floatValidator,
 		},
 		"record": &cli.Item{

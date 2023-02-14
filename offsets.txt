@@ -1,1 +1,1 @@
-acc_x:-7648,acc_y:16382,acc_z:-5704,gyro_x:13108,gyro_y:16416,gyro_z:-30008,mag_x:16382,mag_y:308,mag_z:16383,acc_radius:16416,mag_radius:0
+acc_x:-17317,acc_y:-9354,acc_z:-8460,gyro_x:-12673,gyro_y:-12869,gyro_z:-10795,mag_x:-2213,mag_y:7397,mag_z:-16530,acc_radius:-8961,mag_radius:-26634
